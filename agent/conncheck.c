@@ -2072,7 +2072,7 @@ conn_check_update_selected_pair (NiceAgent *agent, NiceComponent *component,
   g_assert (pair);
   /* pair is expected to have the nominated flag */
   g_assert (pair->nominated);
-  if (pair->priority > component->selected_pair.priority) {
+  if (pair->priority > component->selected_pair.priority && agent->controlling_mode) {
     gchar priority[NICE_CANDIDATE_PAIR_PRIORITY_MAX_SIZE];
     nice_candidate_pair_priority_to_string (pair->priority, priority);
     nice_debug ("Agent %p : changing SELECTED PAIR for component %u: %s:%s "
@@ -2349,7 +2349,7 @@ static CandidateCheckPair *priv_add_new_check_pair (NiceAgent *agent,
       (NiceCandidate *) remote);
 
   if (component->selected_pair.priority &&
-      priority < component->selected_pair.priority) {
+      priority < component->selected_pair.priority && agent->controlling_mode) {
     gchar prio1[NICE_CANDIDATE_PAIR_PRIORITY_MAX_SIZE];
     gchar prio2[NICE_CANDIDATE_PAIR_PRIORITY_MAX_SIZE];
 
